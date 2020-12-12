@@ -1,20 +1,13 @@
 package com.example.jpapractice.sakila.model;
 
-import java.io.Serializable;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -36,6 +29,7 @@ public class Film {
 
     @OneToMany(mappedBy = "film",fetch = FetchType.LAZY)
     @JsonIgnore
+//    @JsonManagedReference
     private List<FilmActor> filmActors;
 
     /**
@@ -57,17 +51,17 @@ public class Film {
     /**
      * language_id
      */
-    private boolean languageId;
+    private Boolean languageId;
 
     /**
      * original_language_id
      */
-    private boolean originalLanguageId;
+    private Boolean originalLanguageId;
 
     /**
      * rental_duration
      */
-    private boolean rentalDuration;
+    private Integer rentalDuration;
 
     /**
      * rental_rate
@@ -97,7 +91,7 @@ public class Film {
     /**
      * last_update
      */
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
 
 
 }

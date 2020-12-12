@@ -1,20 +1,14 @@
 package com.example.jpapractice.sakila.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Luo Bao Ding
@@ -23,7 +17,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Actor {
+@NamedQuery(name = "Actor.takeByLastName",query = "select a from Actor a where a.lastName=?1")
+public class Actor extends  AbstractMappedType{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,16 +31,14 @@ public class Actor {
 
     @OneToMany(mappedBy = "actor",fetch = FetchType.LAZY)
     @JsonIgnore
+//    @JsonManagedReference
     private List<FilmActor> filmActors;
-
 
     private String firstName;
 
     private String lastName;
 
 
-    @LastModifiedDate
-    private LocalDateTime lastUpdate;
 
 
 }

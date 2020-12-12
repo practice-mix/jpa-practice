@@ -1,5 +1,6 @@
 package com.example.jpapractice.sakila.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,16 +16,18 @@ public class FilmActor{
 
 
     @EmbeddedId
-    private FilmActorKey id;
+    private FilmActorKey key;
 
     @ManyToOne
-    @MapsId("actorId")
     @JoinColumn(name="actor_id")
+    @MapsId("actorId")
+//    @JsonBackReference
     private Actor actor;
 
     @ManyToOne
-    @MapsId("filmId")
     @JoinColumn(name="film_id")
+    @MapsId("filmId")
+//    @JsonBackReference
     private Film film;
 
     /**

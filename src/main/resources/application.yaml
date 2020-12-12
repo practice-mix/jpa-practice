@@ -11,7 +11,7 @@ spring:
     show-sql: true
   data:
     rest:
-      base-path: /api
+      base-path: /
       default-page-size: 10
       max-page-size: 100
       detection-strategy: annotated
