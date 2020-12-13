@@ -1,18 +1,38 @@
 package com.example.jpapractice.sakila.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import javax.persistence.*;
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = "film-graph",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "filmCategory",subgraph = "category-graph")
+                        },
+                        subgraphs = {
+                                @NamedSubgraph(
+                                        name = "category-graph",
+                                        attributeNodes = {
+                                                @NamedAttributeNode(value = "category")
+                                        }
+                                )
+                        }
+                )
+        }
+)
 @Getter
 @Setter
 @Entity
-
 public class Film {
 
     @Id
@@ -34,6 +54,7 @@ public class Film {
 
 
     @OneToOne(mappedBy = "film")
+    @JsonManagedReference
     private FilmCategory filmCategory;
 
     /**

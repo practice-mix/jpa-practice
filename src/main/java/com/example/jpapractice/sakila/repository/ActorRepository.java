@@ -19,7 +19,7 @@ import java.util.List;
  * @author Luo Bao Ding
  * @since 12/9/2020
  */
-public interface ActorRepository extends MappedTypeRepository<Actor, Integer>,ActorCustomRepository , QuerydslPredicateExecutor<Actor> {
+public interface ActorRepository extends MappedTypeRepository<Actor, Integer>, ActorCustomRepository, QuerydslPredicateExecutor<Actor>{
 
     List<Actor> findByLastNameContainsOrderByLastUpdate(String lastName);
 
@@ -57,8 +57,9 @@ public interface ActorRepository extends MappedTypeRepository<Actor, Integer>,Ac
 
     @Transactional
     @Modifying
-    @Query(value = "update Actor a set a.firstName=:newFirstName where a.actorId=:id" )//jpa can not automatically recognize transactional DML statement from @Query
-    Integer updateFirstNameById(@Param("id") Integer id,@Param("newFirstName") String newFirstName);
+    @Query(value = "update Actor a set a.firstName=:newFirstName where a.actorId=:id")
+//jpa can not automatically recognize transactional DML statement from @Query
+    Integer updateFirstNameById(@Param("id") Integer id, @Param("newFirstName") String newFirstName);
 
     @Transactional
     Integer deleteByLastNameEquals(String lastName);//query-delete pattern
@@ -66,7 +67,8 @@ public interface ActorRepository extends MappedTypeRepository<Actor, Integer>,Ac
 
     @Transactional
     @Modifying
-    @Query(value = "delete from Actor a  where  a.lastName=:lastName")//one delete sql without entity lifecycle callback
+    @Query(value = "delete from Actor a  where  a.lastName=:lastName")
+//one delete sql without entity lifecycle callback
     Integer delByLastName(@Param("lastName") String lastName);
 
 
@@ -75,9 +77,9 @@ public interface ActorRepository extends MappedTypeRepository<Actor, Integer>,Ac
     <T> Collection<T> findByFirstNameEquals(String firstName, Class<T> type);
 
 
-    List<Actor> findByFirstNameContainsOrLastNameContainsOrderByLastNameDesc(String firstName,String lastName);
+    List<Actor> findByFirstNameContainsOrLastNameContainsOrderByLastNameDesc(String firstName, String lastName);
 
 
-    @Query(value = "select  a.* from actor a where match(first_name,last_name) against(:searchText )",nativeQuery = true)
-    Page<Actor> fullTextSearchName(@Param("searchText") String searchText,Pageable pageable);
+    @Query(value = "select  a.* from actor a where match(first_name,last_name) against(:searchText )", nativeQuery = true)
+    Page<Actor> fullTextSearchName(@Param("searchText") String searchText, Pageable pageable);
 }

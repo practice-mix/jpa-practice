@@ -5,6 +5,7 @@ import com.example.jpapractice.sakila.projection.FilmExcerpt;
 import com.example.jpapractice.sakila.projection.FilmExcerptValue;
 import com.example.jpapractice.sakila.projection.FilmSummary;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +21,7 @@ import java.util.List;
 public interface FilmRepository extends JpaRepository<Film, Integer>, JpaSpecificationExecutor<Film>, QueryByExampleExecutor<Film>, FilmCustomRepository {
 
     //HQL
+    @EntityGraph(value = "film-graph",type = EntityGraph.EntityGraphType.FETCH)
     @Query(value = "select  f from Film  f join f.filmActors fa where fa.key.actorId=:actorId")
     List<Film> findByActorId(@Param("actorId") Integer actorId);
 

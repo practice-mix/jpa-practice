@@ -1,5 +1,7 @@
 package com.example.jpapractice.sakila.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +23,7 @@ public class FilmCategory {
     @OneToOne
     @MapsId("filmId")
     @JoinColumn(name = "film_id")
+    @JsonBackReference
     private Film film;
 
     @Column(name = "last_update")
