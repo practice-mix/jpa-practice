@@ -15,18 +15,22 @@ import java.util.List;
  * @author Luo Bao Ding
  * @since 12/10/2020
  */
-public interface FilmRepository extends JpaRepository<Film,Integer>, JpaSpecificationExecutor<Film>, QueryByExampleExecutor<Film> {
+public interface FilmRepository extends JpaRepository<Film, Integer>, JpaSpecificationExecutor<Film>, QueryByExampleExecutor<Film>, FilmCustomRepository {
 
-//HQL
+    //HQL
     @Query(value = "select  f from Film  f join f.filmActors fa where fa.key.actorId=:actorId")
     List<Film> findByActorId(@Param("actorId") Integer actorId);
 
-    //JPQL
-    @Query(value = "select f.filmId as filmId,f.title as title,f.releaseYear as releaseYear ,fa.key.actorId as actorId from Film  f join f.filmActors fa where fa.key.actorId=:actorId")//HQL
+    //JPQL: join
+    @Query(value = "select f.filmId as filmId,f.title as title,f.releaseYear as releaseYear ,fa.key.actorId as actorId from Film  f join f.filmActors fa where fa.key.actorId=:actorId")
     List<FilmExcerpt> takeExcerptByActorId(@Param("actorId") Integer actorId);
 
-    //JPQL
-    @Query(value = "select new com.example.jpapractice.sakila.projection.FilmExcerptValue(f.filmId,f.title ,f.releaseYear,fa.key.actorId )   from Film  f join f.filmActors fa where fa.key.actorId=:actorId")//HQL
+    //JPQL: join
+    @Query(value = "select new com.example.jpapractice.sakila.projection.FilmExcerptValue(f.filmId,f.title ,f.releaseYear,fa.key.actorId )   from Film  f join f.filmActors fa where fa.key.actorId=:actorId")
     List<FilmExcerptValue> takeExcerptValueByActorId(@Param("actorId") Integer actorId);
+
+//   fail
+//    @Query(value = "select f.filmId as filmId,f.title as title,f.releaseYear as releaseYear ,fa.key.actorId as actorId from Film  f join f.filmActors fa where fa.key.actorId=:actorId")//HQL
+//    List<FilmExcerptDto> takeFilmExcerptDtoByActorId(@Param("actorId") Integer actorId);
 
 }

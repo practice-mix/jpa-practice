@@ -15,9 +15,10 @@ public class FilmSpecs {
         };
     }
 
-    public static Specification<Film> isLongRentalDuration(){
-        return (root, query, criteriaBuilder) ->{
+    public static Specification<Film> isLongRentalDuration() {
+        return (root, query, criteriaBuilder) -> {
             return criteriaBuilder.greaterThan(root.get(Film_.rentalDuration), 5);
         };
     }
+
 }

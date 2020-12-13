@@ -36,9 +36,21 @@ class FilmRepositoryTest {
 
     }
 
+//    @Test //fail
+//    void takeFilmExcerptDtoByActorId() throws JsonProcessingException {
+//        var result = filmRepository.takeFilmExcerptDtoByActorId(1);
+//        System.out.println(objectMapper.writeValueAsString(result));
+//
+//    }
+
     @Test
     void takeExcerptValueByActorId() throws JsonProcessingException {
         var result = filmRepository.takeExcerptValueByActorId(1);
+        System.out.println(objectMapper.writeValueAsString(result));
+    }
+    @Test
+    void listByActorFirstName() throws JsonProcessingException {
+        var result = filmRepository.listByActorFirstName("MENA");
         System.out.println(objectMapper.writeValueAsString(result));
     }
 
