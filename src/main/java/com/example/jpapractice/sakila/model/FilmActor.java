@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -33,6 +34,6 @@ public class FilmActor{
     /**
      * last_update
      */
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
 
 }

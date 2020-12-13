@@ -74,4 +74,10 @@ public interface ActorRepository extends MappedTypeRepository<Actor, Integer>,Ac
 
     <T> Collection<T> findByFirstNameEquals(String firstName, Class<T> type);
 
+
+    List<Actor> findByFirstNameContainsOrLastNameContainsOrderByLastNameDesc(String firstName,String lastName);
+
+
+    @Query(value = "select  a.* from actor a where match(first_name,last_name) against(:searchText )",nativeQuery = true)
+    Page<Actor> fullTextSearchName(@Param("searchText") String searchText,Pageable pageable);
 }

@@ -163,5 +163,17 @@ public class ActorRepositoryTest {
 
     }
 
+    @Test
+    void findByFirstNameContainsOrLastNameContainsOrderByLastNameDesc() throws JsonProcessingException {
+        var result =   actorRepository.findByFirstNameContainsOrLastNameContainsOrderByLastNameDesc("NE","NE");
+        System.out.println(objectMapper.writeValueAsString(result));
+    }
+    @Test
+    void fullTextSearchName() throws JsonProcessingException {
+        var result =   actorRepository.fullTextSearchName("PENELOPE,WAHLBERG",PageRequest.of(0,10,Sort.by(Sort.Direction.ASC,"actor_id")));
+        System.out.println(objectMapper.writeValueAsString(result));
+    }
+
+
 
 }

@@ -32,6 +32,10 @@ public class Film {
 //    @JsonManagedReference
     private List<FilmActor> filmActors;
 
+
+    @OneToOne(mappedBy = "film")
+    private FilmCategory filmCategory;
+
     /**
      * Q
      * title

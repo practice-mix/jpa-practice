@@ -1,12 +1,12 @@
 package com.example.jpapractice.sakila.repository;
 
 import com.example.jpapractice.sakila.model.Film;
-import com.example.jpapractice.sakila.projection.FilmExcerptValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -51,6 +51,11 @@ class FilmRepositoryTest {
     @Test
     void listByActorFirstName() throws JsonProcessingException {
         var result = filmRepository.listByActorFirstName("MENA");
+        System.out.println(objectMapper.writeValueAsString(result));
+    }
+    @Test
+    void takeFilmSummary() throws JsonProcessingException {
+        var result = filmRepository.takeFilmSummary("JODIE",11, PageRequest.of(0,10));
         System.out.println(objectMapper.writeValueAsString(result));
     }
 

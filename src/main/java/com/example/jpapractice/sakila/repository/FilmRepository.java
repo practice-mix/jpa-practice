@@ -3,6 +3,8 @@ package com.example.jpapractice.sakila.repository;
 import com.example.jpapractice.sakila.model.Film;
 import com.example.jpapractice.sakila.projection.FilmExcerpt;
 import com.example.jpapractice.sakila.projection.FilmExcerptValue;
+import com.example.jpapractice.sakila.projection.FilmSummary;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -32,5 +34,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer>, JpaSpecifi
 //   fail
 //    @Query(value = "select f.filmId as filmId,f.title as title,f.releaseYear as releaseYear ,fa.key.actorId as actorId from Film  f join f.filmActors fa where fa.key.actorId=:actorId")//HQL
 //    List<FilmExcerptDto> takeFilmExcerptDtoByActorId(@Param("actorId") Integer actorId);
+
+    @Query(value = "select f.title as title,f.rating as rating,f.description as description,f.releaseYear as releaseYear,a.firstName as firstName , a.lastName as lastName,c.name as categoryName  from Film f join f.filmActors fa join fa.actor a join f.filmCategory fc join fc.category c where ftsTwo( a.firstName,a.lastName,:searchText)>0 and fc.key.categoryId=:categoryId")
+    List<FilmSummary> takeFilmSummary(@Param("searchText") String searchText, @Param("categoryId") Integer categoryId, Pageable pageable);
 
 }
