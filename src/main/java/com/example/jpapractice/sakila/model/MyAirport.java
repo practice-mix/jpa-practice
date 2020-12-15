@@ -26,12 +26,13 @@ public class MyAirport {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "depaAirport")
-    @JsonManagedReference
-    private List<MyFlight> depaFlights;
-
-    @OneToMany(mappedBy = "arriAirport")
-    @JsonManagedReference
-    private List<MyFlight> arriFlights;
+//    //remove  N+1
+//    @OneToMany(mappedBy = "depaAirport")
+//    @JsonManagedReference
+//    private List<MyFlight> depaFlights;
+//
+//    @OneToMany(mappedBy = "arriAirport")
+//    @JsonManagedReference
+//    private List<MyFlight> arriFlights;
 
 }
