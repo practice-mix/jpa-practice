@@ -36,8 +36,8 @@ public class ActorController {
         return actorRepository.findAll(pageable);
     }
 
-    @GetMapping("/reuseProjection")
-    public Collection<ActorPayload> reuseProjection(ActorPayload actorPayload) {
+    @GetMapping("/webDataBinding")
+    public Collection<ActorPayload> webDataBinding(ActorPayload actorPayload) {
         return actorRepository.findByFirstNameEquals(actorPayload.getFirstName(), ActorPayload.class);
     }
 

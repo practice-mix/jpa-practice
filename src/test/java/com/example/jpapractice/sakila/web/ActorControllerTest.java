@@ -25,8 +25,8 @@ class ActorControllerTest {
         System.out.println(result);
     }
      @Test
-    void reuseProjection() throws Exception {
-        String result = mockMvc.perform(get("/actor/reuseProjection?firstName=PENELOPE")).andReturn().getResponse().getContentAsString();
+    void webDataBinding() throws Exception {
+        String result = mockMvc.perform(get("/actor/webDataBinding?firstName=PENELOPE")).andReturn().getResponse().getContentAsString();
         System.out.println(result);
     }
      @Test
