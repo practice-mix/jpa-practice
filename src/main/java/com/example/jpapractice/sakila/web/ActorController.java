@@ -1,7 +1,7 @@
 package com.example.jpapractice.sakila.web;
 
 import com.example.jpapractice.sakila.model.Actor;
-import com.example.jpapractice.sakila.projection.ActorPayload;
+import com.example.jpapractice.sakila.model.projection.ActorPayload;
 import com.example.jpapractice.sakila.repository.ActorRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Luo Bao Ding

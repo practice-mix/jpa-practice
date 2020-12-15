@@ -1,8 +1,7 @@
-package com.example.jpapractice.sakila.projection;
+package com.example.jpapractice.sakila.model.projection;
 
 import com.example.jpapractice.sakila.model.Actor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Luo Bao Ding

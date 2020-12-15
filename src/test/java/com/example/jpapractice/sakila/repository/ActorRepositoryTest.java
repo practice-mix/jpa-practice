@@ -1,8 +1,8 @@
 package com.example.jpapractice.sakila.repository;
 
 import com.example.jpapractice.sakila.model.Actor;
-import com.example.jpapractice.sakila.projection.NamesOnly;
-import com.example.jpapractice.sakila.projection.NamesOnly2;
+import com.example.jpapractice.sakila.model.projection.NamesOnly;
+import com.example.jpapractice.sakila.model.projection.NamesOnly2;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,8 @@
 package com.example.jpapractice.sakila.repository;
 
 import com.example.jpapractice.sakila.model.City;
-import com.example.jpapractice.sakila.projection.CitySummary;
+import com.example.jpapractice.sakila.model.projection.CitySummary;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Collection;
 
 /**
  * @author Luo Bao Ding

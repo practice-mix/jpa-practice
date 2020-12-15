@@ -1,6 +1,7 @@
-package com.example.jpapractice.sakila.projection;
+package com.example.jpapractice.sakila.model.projection;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Luo Bao Ding

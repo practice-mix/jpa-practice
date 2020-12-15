@@ -1,8 +1,6 @@
-package com.example.jpapractice.sakila.projection;
+package com.example.jpapractice.sakila.model.projection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.Optional;
 
 /**
  * @author Luo Bao Ding

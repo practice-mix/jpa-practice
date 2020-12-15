@@ -1,4 +1,4 @@
-package com.example.jpapractice.sakila.projection;
+package com.example.jpapractice.sakila.model.projection;
 
 /**
  * this is a a closed projection and a interface-based projection

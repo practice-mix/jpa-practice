@@ -1,9 +1,9 @@
 package com.example.jpapractice.sakila.repository;
 
 import com.example.jpapractice.sakila.model.Film;
-import com.example.jpapractice.sakila.projection.FilmExcerpt;
-import com.example.jpapractice.sakila.projection.FilmExcerptValue;
-import com.example.jpapractice.sakila.projection.FilmSummary;
+import com.example.jpapractice.sakila.model.projection.FilmExcerpt;
+import com.example.jpapractice.sakila.model.projection.FilmExcerptValue;
+import com.example.jpapractice.sakila.model.projection.FilmSummary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

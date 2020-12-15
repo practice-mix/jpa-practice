@@ -1,8 +1,8 @@
 package com.example.jpapractice.sakila.specification;
 
 import com.example.jpapractice.sakila.model.Film;
+import com.example.jpapractice.sakila.model.request.ActorFilmRequest;
 import com.example.jpapractice.sakila.repository.FilmRepository;
-import com.example.jpapractice.sakila.request.ActorFilmRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -10,11 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static com.example.jpapractice.sakila.specification.FilmSpecs.*;
 
 /**
  * @author Luo Bao Ding

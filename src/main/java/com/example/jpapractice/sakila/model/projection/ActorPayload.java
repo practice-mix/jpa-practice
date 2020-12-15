@@ -1,4 +1,4 @@
-package com.example.jpapractice.sakila.projection;
+package com.example.jpapractice.sakila.model.projection;
 
 import org.springframework.data.web.JsonPath;
 import org.springframework.data.web.ProjectedPayload;

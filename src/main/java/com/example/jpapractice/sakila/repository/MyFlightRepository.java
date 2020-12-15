@@ -1,8 +1,8 @@
 package com.example.jpapractice.sakila.repository;
 
 import com.example.jpapractice.sakila.model.MyFlight;
-import com.example.jpapractice.sakila.projection.MyFlightDTO;
-import com.example.jpapractice.sakila.projection.MyFlightView;
+import com.example.jpapractice.sakila.model.projection.MyFlightDTO;
+import com.example.jpapractice.sakila.model.projection.MyFlightView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

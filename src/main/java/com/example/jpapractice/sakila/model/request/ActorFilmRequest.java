@@ -1,11 +1,9 @@
-package com.example.jpapractice.sakila.request;
+package com.example.jpapractice.sakila.model.request;
 
 import com.example.jpapractice.sakila.model.Actor;
 import com.example.jpapractice.sakila.model.Film;
 import com.example.jpapractice.sakila.model.FilmActor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Join;
