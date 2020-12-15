@@ -26,7 +26,7 @@ public class MyFlightRepositoryTest {
     @Test
     void createFlight() throws JsonProcessingException {
         MyFlight flight = new MyFlight();
-        flight.setName("flight1");
+        flight.setName("flight2");
         flight.setDepaAirport(new MyAirport("2"));
         flight.setArriAirport(new MyAirport("3"));
 

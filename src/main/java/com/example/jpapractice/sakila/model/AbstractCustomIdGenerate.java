@@ -18,7 +18,7 @@ import javax.persistence.MappedSuperclass;
 public class AbstractCustomIdGenerate {
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "customUuid") //generator always override id
+    @GeneratedValue(generator = "customUuid")
     private String id;
 
     public AbstractCustomIdGenerate(){}

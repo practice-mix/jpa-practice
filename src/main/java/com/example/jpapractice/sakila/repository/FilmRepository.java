@@ -30,7 +30,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer>, JpaSpecifi
     List<FilmExcerpt> takeExcerptByActorId(@Param("actorId") Integer actorId);
 
     //JPQL: join
-    @Query(value = "select new com.example.jpapractice.sakila.projection.FilmExcerptValue(f.filmId,f.title ,f.releaseYear,fa.key.actorId )   from Film  f join f.filmActors fa where fa.key.actorId=:actorId")
+    @Query(value = "select new com.example.jpapractice.sakila.model.projection.FilmExcerptValue(f.filmId,f.title ,f.releaseYear,fa.key.actorId )   from Film  f join f.filmActors fa where fa.key.actorId=:actorId")
     List<FilmExcerptValue> takeExcerptValueByActorId(@Param("actorId") Integer actorId);
 
 //   fail

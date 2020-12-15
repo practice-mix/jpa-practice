@@ -18,7 +18,7 @@ public interface MyFlightRepository  extends JpaRepository<MyFlight,String> {
     Page<MyFlightView> findBy(Pageable pageable);
 
 
-    @Query(value = "select  new com.example.jpapractice.sakila.projection.MyFlightDTO(f.id,f.name,da.name,aa.name)" +
+    @Query(value = "select  new com.example.jpapractice.sakila.model.projection.MyFlightDTO(f.id,f.name,da.name,aa.name)" +
             " from MyFlight f left join f.depaAirport da  left join  f.arriAirport aa ")
     Page<MyFlightDTO> checkOutFlightDto(Pageable pageable);
 
