@@ -12,18 +12,15 @@ import java.util.List;
 @Table(name = "my_airport")
 @Getter
 @Setter
-@NoArgsConstructor
-public class MyAirport {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(generator = "uuid2") //generator always override id
-    private String id;
+public class MyAirport extends AbstractCustomIdGenerate {
 
     @Column(name = "name")
     private String name;
 
+    public MyAirport(){}
+
     public MyAirport(String id) {
-        this.id = id;
+       super(id);
     }
 
 //    //remove  N+1

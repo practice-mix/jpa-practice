@@ -22,8 +22,8 @@ public class MyAirportRepositoryTest {
     @Test
     void createAirportManualId() throws JsonProcessingException {
         MyAirport airport = new MyAirport();
-        airport.setId("3");
-        airport.setName("name1");
+        airport.setId("4");
+        airport.setName("name4");
 
         MyAirport result = airportRepository.save(airport);
         System.out.println(objectMapper.writeValueAsString(result));
@@ -33,7 +33,7 @@ public class MyAirportRepositoryTest {
     @Test
     void createAirportGenId() throws JsonProcessingException {
         MyAirport airport = new MyAirport();
-        airport.setName("name2");
+        airport.setName("name gen");
 
         MyAirport result = airportRepository.save(airport);
         System.out.println(objectMapper.writeValueAsString(result));

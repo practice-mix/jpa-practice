@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class MyFlight {
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "uuid2")
+    @GeneratedValue(generator = "uuid2")//generator always override id
     private String id;
 
     @Column(name = "name")
