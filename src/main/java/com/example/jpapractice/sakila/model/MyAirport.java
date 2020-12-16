@@ -1,12 +1,12 @@
 package com.example.jpapractice.sakila.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "my_airport")
@@ -17,10 +17,17 @@ public class MyAirport extends AbstractCustomIdGenerate {
     @Column(name = "name")
     private String name;
 
-    public MyAirport(){}
+    @Column(name = "size")
+    private Integer size;
+
+    @Column(name = "create_time", updatable = false)
+    private LocalDateTime createTime;
+
+    public MyAirport() {
+    }
 
     public MyAirport(String id) {
-       super(id);
+        super(id);
     }
 
 //    //remove  N+1
