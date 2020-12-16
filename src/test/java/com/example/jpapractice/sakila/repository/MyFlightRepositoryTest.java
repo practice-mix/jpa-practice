@@ -2,6 +2,7 @@ package com.example.jpapractice.sakila.repository;
 
 import com.example.jpapractice.sakila.model.MyAirport;
 import com.example.jpapractice.sakila.model.MyFlight;
+import com.example.jpapractice.sakila.model.event.MyFlightCreatedEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,11 @@ public class MyFlightRepositoryTest {
     @Test
     void createFlight() throws JsonProcessingException {
         MyFlight flight = new MyFlight();
-        flight.setName("flight2");
+        flight.setName("flight 4");
         flight.setDepaAirport(new MyAirport("2"));
         flight.setArriAirport(new MyAirport("3"));
 
-        MyFlight result = flightRepository.save(flight);
+        MyFlight result = flightRepository.save(flight.registerEvent(new MyFlightCreatedEvent(flight.getName())));
         System.out.println(objectMapper.writeValueAsString(result));
 
     }
