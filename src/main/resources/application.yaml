@@ -13,6 +13,7 @@ spring:
       hibernate:
         dialect: com.example.jpapractice.sakila.config.MySQLDialectCustom
         generate_statistics: true
+
   data:
     rest:
       base-path: /
