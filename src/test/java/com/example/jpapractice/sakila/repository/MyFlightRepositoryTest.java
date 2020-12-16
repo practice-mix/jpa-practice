@@ -1,8 +1,10 @@
 package com.example.jpapractice.sakila.repository;
 
+import com.example.jpapractice.sakila.engine.EventProcessingException;
 import com.example.jpapractice.sakila.model.MyAirport;
 import com.example.jpapractice.sakila.model.MyFlight;
 import com.example.jpapractice.sakila.model.event.MyFlightCreatedEvent;
+import com.example.jpapractice.sakila.model.event.MyFlightEventProcessingExceptionEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,23 @@ public class MyFlightRepositoryTest {
 
         MyFlight result = flightRepository.save(flight.registerEvent(new MyFlightCreatedEvent(flight.getName())));
         System.out.println(objectMapper.writeValueAsString(result));
+
+    }
+
+    @Test
+    void eventProcessingExceptionEvent() throws JsonProcessingException {
+        MyFlight flight = new MyFlight();
+        flight.setName("flight 7");
+        flight.setDepaAirport(new MyAirport("2"));
+        flight.setArriAirport(new MyAirport("3"));
+        try {
+            MyFlight result = flightRepository.save(flight.registerEvent(new MyFlightEventProcessingExceptionEvent(flight.getName())));
+            System.out.println(objectMapper.writeValueAsString(result));
+
+        } catch (EventProcessingException e) {
+            System.out.println(e.toString());//useless , can not catch the event
+        }
+
 
     }
 

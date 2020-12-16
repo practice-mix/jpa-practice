@@ -1,6 +1,7 @@
 package com.example.jpapractice.sakila.engine;
 
 import com.example.jpapractice.sakila.model.event.MyFlightCreatedEvent;
+import com.example.jpapractice.sakila.model.event.MyFlightEventProcessingExceptionEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -17,4 +18,12 @@ public class Engine {
         System.out.println("handle event: MyFlightCreatedEvent " + event);
 
     }
+
+    @TransactionalEventListener
+    public void handleMyFlightEventProcessingExceptionEvent(MyFlightEventProcessingExceptionEvent event) {
+        System.out.println("handle event: MyFlightEventProcessingExceptionEvent " + event);
+        throw new EventProcessingException("manual exception: EventProcessingException");//can not be caught
+    }
+
+
 }
