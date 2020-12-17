@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class ActorManager {
+public class ActorService {
 
     private final ActorRepository actorRepository;
 

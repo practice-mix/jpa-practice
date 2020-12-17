@@ -9,24 +9,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Luo Bao Ding
  * @since 12/13/2020
  */
 @SpringBootTest
-class ActorManagerTest {
+class ActorServiceTest {
 
     @Autowired
-    ActorManager actorManager;
+    ActorService actorService;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Test
     void findActorByFirstName() throws JsonProcessingException {
-        List<Actor> result = actorManager.findActorByFirstName("MENA");
+        List<Actor> result = actorService.findActorByFirstName("MENA");
         System.out.println(objectMapper.writeValueAsString(result));
     }
 }
