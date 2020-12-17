@@ -8,10 +8,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -49,6 +46,10 @@ public class MyAirport extends AbstractCustomIdGenerate {
     @LastModifiedBy
     private String modifiedBy;
 
+    @Column(name = "classification")
+    @Enumerated // this annotation can be eliminated
+    private Classification classification;
+
     public MyAirport() {
     }
 
@@ -65,4 +66,8 @@ public class MyAirport extends AbstractCustomIdGenerate {
 //    @JsonManagedReference
 //    private List<MyFlight> arriFlights;
 
+
+    public enum Classification {
+        BIG, MEDIUM, SMALL;
+    }
 }
