@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface AddressRepository extends JpaRepository<Address, Integer> {
 
-    @Query("select a.address as address ,a.district as district,c.city as city from Address a join City c on a.cityId=c.cityId ")
+    @Query("select a.address as address ,a.district as district,c.city as city,a.location as location from Address a join City c on a.cityId=c.cityId ")
     Page<AddressSummary> takeAddressSummary(Pageable pageable);
 
 }

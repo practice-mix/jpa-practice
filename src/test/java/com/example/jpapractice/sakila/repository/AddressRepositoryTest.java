@@ -22,6 +22,7 @@ class AddressRepositoryTest {
     @Test
     void takeAddressSummary() throws JsonProcessingException {
         var result = addressRepository.takeAddressSummary(PageRequest.of(0, 5));
+//        System.out.println(result.getContent().get(0).getLocation());
         System.out.println(objectMapper.writeValueAsString(result));
 
     }
