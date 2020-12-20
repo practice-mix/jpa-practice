@@ -79,6 +79,16 @@ public interface ActorRepository extends MappedTypeRepository<Actor, Integer>, A
     List<Actor> findByFirstNameContainsOrLastNameContainsOrderByLastNameDesc(String firstName, String lastName);
 
 
-    @Query(value = "select  a.* from actor a where match(first_name,last_name) against(:searchText )", nativeQuery = true)
+    //    @Query(value = "select  a.* from actor a where match(first_name,last_name) against(:searchText )", nativeQuery = true)//fail, because of count(a.*)
+    @Query(value = "select  * from actor a where match(first_name,last_name) against(:searchText )", nativeQuery = true)
+    //auto append limit order
     Page<Actor> fullTextSearchName(@Param("searchText") String searchText, Pageable pageable);
+
+
+    @Query(value = "select  a.* from actor a where match(first_name,last_name) against(:searchText )", //auto append limit order
+            countQuery = "select  count(*) from actor a where match(first_name,last_name) against(:searchText )",
+            nativeQuery = true)
+    Page<Actor> fullTextSearchName2(@Param("searchText") String searchText, Pageable pageable);
+
+
 }
