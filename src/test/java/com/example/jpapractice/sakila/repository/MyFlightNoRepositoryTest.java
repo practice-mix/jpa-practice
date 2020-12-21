@@ -35,9 +35,10 @@ class MyFlightNoRepositoryTest {
     @Test
     void saveWithEnumListAttributeConverter() throws JsonProcessingException {
         MyFlightNo entity = new MyFlightNo();
-        entity.setNo("a2");
+        entity.setNo("a6");
         entity.setClassification(MyFlightNo.Classification.MILITARY);
         entity.setUnusedSchedule(Arrays.asList(MyFlightNo.ScheduleUnit.MON, MyFlightNo.ScheduleUnit.FRI));
+        entity.setUsedSchedule(Arrays.asList(MyFlightNo.ScheduleUnit.TWU, MyFlightNo.ScheduleUnit.THU));
         entity.setRequestedSchedule(EnumSet.copyOf(Arrays.asList(MyFlightNo.ScheduleUnit.WED, MyFlightNo.ScheduleUnit.SAT)));
         MyFlightNo result = repository.save(entity);
         System.out.println(objectMapper.writeValueAsString(result));

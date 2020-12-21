@@ -30,7 +30,11 @@ public class MyFlightNo {
     private EnumSet<ScheduleUnit> requestedSchedule;
 
     @Column(name = "used_schedule")
-    private String usedSchedule;
+    @Type(type = "EnumList", parameters = {
+            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
+    })
+    @Convert(disableConversion = true)
+    private List<ScheduleUnit> usedSchedule;
 
     @SuppressWarnings("JpaAttributeTypeInspection")
     @Column(name = "unused_schedule")
