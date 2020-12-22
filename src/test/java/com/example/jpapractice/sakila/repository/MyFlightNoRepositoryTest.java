@@ -67,4 +67,17 @@ class MyFlightNoRepositoryTest {
 
     }
 
+    @Test
+    void searchDynamic() throws JsonProcessingException {
+        MyFlightNoSearch request = new MyFlightNoSearch();
+        request.setNo("a6");
+        request.setClassification(MyFlightNo.Classification.PROTECT_CABOTAGE);
+//       request.setUnusedSchedule(Arrays.asList(MyFlightNo.ScheduleUnit.WED, MyFlightNo.ScheduleUnit.SUN));
+//       request.setUsedSchedule(Arrays.asList(MyFlightNo.ScheduleUnit.WED, MyFlightNo.ScheduleUnit.SUN));
+        request.setRequestedSchedule(Arrays.asList(MyFlightNo.ScheduleUnit.WED, MyFlightNo.ScheduleUnit.SUN));
+        Page<MyFlightNo> result = repository.searchDynamic(request, PageRequest.of(0, 2));
+        System.out.println(objectMapper.writeValueAsString(result));
+
+    }
+
 }

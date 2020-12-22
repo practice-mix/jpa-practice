@@ -22,4 +22,15 @@ public interface MyFlightNoRepository extends JpaRepository<MyFlightNo, Integer>
             "and ftsOne(f.requestedSchedule,:#{#request.requestedScheduleStr})>0  " +
             "")
     Page<MyFlightNo> searchStatic(@Param("request") MyFlightNoSearch request, Pageable pageable);
+
+    @Query(value = "select * from my_flight_no f where 1=1 " +
+            " and if(:#{#request.no} is not null,f.no = :#{#request.no},1=1)   " +
+            "and if(:#{#request.classification} is not null,f.classification=:#{#request.classification.value} ,1=1)  " +
+            "and if(:#{#request.unusedScheduleStr} is not null,match(f.unused_schedule)  against(:#{#request.unusedScheduleStr } in boolean  mode),1=1)  " +
+            "and if(:#{#request.usedScheduleStr} is not null, match( f.used_schedule ) against(:#{#request.usedScheduleStr} in boolean  mode) ,1=1)  " +
+            "and if(:#{#request.requestedScheduleStr} is not null, match(f.requested_schedule) against (:#{#request.requestedScheduleStr} in boolean  mode) ,1=1) " +
+            "", nativeQuery = true)
+    Page<MyFlightNo> searchDynamic(@Param("request") MyFlightNoSearch request, Pageable pageable);
+
+
 }

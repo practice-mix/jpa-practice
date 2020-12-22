@@ -31,4 +31,20 @@ public class MyFlightNoSearch {
         }
         return requestedSchedule.stream().map(MyFlightNo.ScheduleUnit::getValue).map(o -> Integer.toString(o)).map(t -> " +" + t).collect(Collectors.joining(" "));
     }
+
+    public String getUnusedScheduleStr() {
+        if (unusedSchedule == null) {
+            return null;
+        }
+        return unusedSchedule.stream().map(MyFlightNo.ScheduleUnit::getValue).map(o -> Integer.toString(o)).map(t -> " +" + t).collect(Collectors.joining(" "));
+    }
+
+    public String getUsedScheduleStr() {
+        if (usedSchedule == null) {
+            return null;
+        }
+        return usedSchedule.stream().map(MyFlightNo.ScheduleUnit::getValue).map(o -> Integer.toString(o)).map(t -> " +" + t).collect(Collectors.joining(" "));
+    }
+
+
 }
