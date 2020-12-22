@@ -7,7 +7,6 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.EnumSet;
 import java.util.List;
 
 @Entity
@@ -23,18 +22,18 @@ public class MyFlightNo {
     @Column(name = "no")
     private String no;
 
-    @Column(name = "requested_schedule")
-    @Type(type = "enumSet", parameters = {
-            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
-    })
-    private EnumSet<ScheduleUnit> requestedSchedule;
+//    @Column(name = "requested_schedule")
+//    @Type(type = "enumSet", parameters = {
+//            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
+//    })
+private String requestedSchedule;
 
     @Column(name = "used_schedule")
     @Type(type = "EnumList", parameters = {
             @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
     })
     @Convert(disableConversion = true)
-    private List<ScheduleUnit> usedSchedule;
+    private List<ScheduleUnit> usedSchedule;//todo: query
 
     @SuppressWarnings("JpaAttributeTypeInspection")
     @Column(name = "unused_schedule")

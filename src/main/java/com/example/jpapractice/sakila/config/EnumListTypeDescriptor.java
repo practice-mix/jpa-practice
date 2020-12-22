@@ -2,7 +2,6 @@ package com.example.jpapractice.sakila.config;
 
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.AbstractTypeDescriptor;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +39,7 @@ public class EnumListTypeDescriptor extends AbstractTypeDescriptor<List> {
         if (string == null)
             return null;
 
-        List<Enum> list = Arrays.stream(StringUtils.split(string, SEPARATOR))
+        List<Enum> list = Arrays.stream(string.split(SEPARATOR))
                 .map(ordinal -> enumConstants[Integer.parseInt(ordinal)])
                 .map(Enum.class::cast)
                 .collect(Collectors.toList());
