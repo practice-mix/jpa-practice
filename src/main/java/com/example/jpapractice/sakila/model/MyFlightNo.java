@@ -22,11 +22,11 @@ public class MyFlightNo {
     @Column(name = "no")
     private String no;
 
-//    @Column(name = "requested_schedule")
+    //    @Column(name = "requested_schedule")
 //    @Type(type = "enumSet", parameters = {
 //            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
 //    })
-private String requestedSchedule;
+    private String requestedSchedule;
 
     @Column(name = "used_schedule")
     @Type(type = "EnumList", parameters = {
