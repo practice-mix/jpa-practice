@@ -115,7 +115,7 @@ public class MyFlightNoService {
         }
     }
 
-    private Predicate[] getPredicates(MyFlightNoSearch request, CriteriaBuilder builder, Root<MyFlightNo> entity) {
+    private Predicate getPredicates(MyFlightNoSearch request, CriteriaBuilder builder, Root<MyFlightNo> entity) {
         List<Predicate> predicates = new ArrayList<>();
         if (request.getNo() != null) {
             predicates.add(builder.equal(entity.get(MyFlightNo_.no), request.getNo()));
@@ -135,7 +135,7 @@ public class MyFlightNoService {
             ));
         }
 
-        return predicates.toArray(new Predicate[]{});
+        return builder.and(predicates.toArray(new Predicate[]{}));
 
     }
 }

@@ -27,4 +27,12 @@ class ActorServiceTest {
         List<Actor> result = actorService.findActorByFirstName("MENA");
         System.out.println(objectMapper.writeValueAsString(result));
     }
+
+    @Test
+    void findActorByLastName() throws JsonProcessingException {
+        List<Actor> result = actorService.findActorByLastName("GUINESS");
+        System.out.println(objectMapper.writeValueAsString(result));
+    }
+
+
 }
