@@ -1,4 +1,4 @@
-package com.example.jpapractice.sakila.config;
+package com.example.jpapractice.sakila.config.converter;
 
 import com.example.jpapractice.sakila.model.MyFlightNo;
 

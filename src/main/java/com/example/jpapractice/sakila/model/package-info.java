@@ -9,8 +9,8 @@
 
 package com.example.jpapractice.sakila.model;
 
-import com.example.jpapractice.sakila.config.EnumListType;
-import com.example.jpapractice.sakila.config.EnumSetType;
+import com.example.jpapractice.sakila.config.customtype.EnumListType;
+import com.example.jpapractice.sakila.config.customtype.EnumSetType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.TypeDef;
 

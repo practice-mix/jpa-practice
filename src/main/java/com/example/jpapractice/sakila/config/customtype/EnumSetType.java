@@ -1,4 +1,4 @@
-package com.example.jpapractice.sakila.config;
+package com.example.jpapractice.sakila.config.customtype;
 
 import org.hibernate.type.AbstractSingleColumnStandardBasicType;
 import org.hibernate.type.descriptor.sql.VarcharTypeDescriptor;
