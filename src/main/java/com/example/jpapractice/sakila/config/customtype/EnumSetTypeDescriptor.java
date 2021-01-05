@@ -34,7 +34,7 @@ public class EnumSetTypeDescriptor extends AbstractTypeDescriptor<EnumSet> {
 				.collect(Collectors.joining(SEPARATOR));
 	}
 
-	@SuppressWarnings({"rawtypes", "ConstantConditions", "unchecked"})
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public EnumSet fromString(String string) {
 		if (string == null)
