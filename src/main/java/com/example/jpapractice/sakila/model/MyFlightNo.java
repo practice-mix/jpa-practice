@@ -1,5 +1,7 @@
 package com.example.jpapractice.sakila.model;
 
+import com.example.jpapractice.sakila.config.converter.MyFlightNoClassificationConverter;
+import com.example.jpapractice.sakila.config.converter.MyFlightNoScheduleListConverter;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +25,7 @@ public class MyFlightNo {
     private String no;
 
     //    @Column(name = "requested_schedule")
-//    @Type(type = "enumSet", parameters = {
+//    @Type(type = "EnumSet", parameters = {
 //            @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
 //    })
     private String requestedSchedule;
@@ -37,9 +39,12 @@ public class MyFlightNo {
 
     @SuppressWarnings("JpaAttributeTypeInspection")
     @Column(name = "unused_schedule")
+    @Convert(converter = MyFlightNoScheduleListConverter.class)
+//avoid conflict form json converter if any, otherwise need not to add this  @Convert
     private List<ScheduleUnit> unusedSchedule;//MyFlightNoScheduleListConverter
 
     @Column(name = "classification")
+    @Convert(converter = MyFlightNoClassificationConverter.class)
     private Classification classification;
 
     @Column(name = "update_time", insertable = false, updatable = false)
