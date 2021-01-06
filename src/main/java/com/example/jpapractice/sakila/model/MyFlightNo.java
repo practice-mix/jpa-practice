@@ -37,7 +37,6 @@ public class MyFlightNo {
     @Convert(disableConversion = true)
     private List<ScheduleUnit> usedSchedule;//todo: query
 
-    @SuppressWarnings("JpaAttributeTypeInspection")
     @Column(name = "unused_schedule")
     @Convert(converter = MyFlightNoScheduleListConverter.class)
 //avoid conflict form json converter if any, otherwise need not to add this  @Convert

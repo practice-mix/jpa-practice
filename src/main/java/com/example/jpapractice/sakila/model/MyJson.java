@@ -1,9 +1,8 @@
 package com.example.jpapractice.sakila.model;
 
 import com.example.jpapractice.sakila.config.converter.JsonConverter;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -32,18 +31,35 @@ public class MyJson {
     @Column(name = "json_obj2")
     private JsonObj jsonObj2;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time", updatable = false, insertable = false)
     private LocalDateTime createTime;
 
-    @Column(name = "update_time")
+    @Column(name = "update_time", updatable = false, insertable = false)
     private LocalDateTime updateTime;
 
+    @Column(name = "used_schedules")
+    @Type(type = "json")
+    private List<ScheduleUnit> usedSchedules;
 
+
+    @Builder
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class JsonObj {
         private String username;
 
-        private String age;
+        private Integer age;
+    }
+
+    public enum ScheduleUnit {
+        MON, TWU, WED, THU, FRI, SAT, SUN;
+
+        @JsonValue
+        public int getValue() {
+            return ordinal();
+        }
+
     }
 }
 
