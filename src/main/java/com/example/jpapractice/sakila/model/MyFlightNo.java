@@ -1,7 +1,5 @@
 package com.example.jpapractice.sakila.model;
 
-import com.example.jpapractice.sakila.config.converter.MyFlightNoClassificationConverter;
-import com.example.jpapractice.sakila.config.converter.MyFlightNoScheduleListConverter;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +7,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "my_flight_no")
@@ -73,6 +73,20 @@ public class MyFlightNo {
         }
     }
 
+    @Converter(autoApply = true)
+    public static class MyFlightNoClassificationConverter implements AttributeConverter<MyFlightNo.Classification, Integer> {
+        @Override
+        public Integer convertToDatabaseColumn(MyFlightNo.Classification attribute) {
+            return attribute.getValue();
+        }
+
+        @Override
+        public MyFlightNo.Classification convertToEntityAttribute(Integer dbData) {
+            return MyFlightNo.Classification.parseFromValue(dbData);
+        }
+
+    }
+
     public enum ScheduleUnit {
         MON, TWU, WED, THU, FRI, SAT, SUN;
 
@@ -81,6 +95,29 @@ public class MyFlightNo {
             return ordinal();
         }
 
+    }
+
+    @Converter(autoApply = true)
+    public static class MyFlightNoScheduleListConverter implements AttributeConverter<List<MyFlightNo.ScheduleUnit>, String> {
+        private static final String SEPARATOR = ",";
+        private final MyFlightNo.ScheduleUnit[] enumConstants = MyFlightNo.ScheduleUnit.class.getEnumConstants();
+
+        @Override
+        public String convertToDatabaseColumn(List<MyFlightNo.ScheduleUnit> attribute) {
+            if (attribute == null) {
+                return null;
+            }
+            return attribute.stream().map(v -> Integer.toString(v.ordinal())).collect(Collectors.joining(SEPARATOR));
+        }
+
+        @Override
+        public List<MyFlightNo.ScheduleUnit> convertToEntityAttribute(String dbData) {
+            if (dbData == null) {
+                return null;
+            }
+            return Arrays.stream(dbData.split(SEPARATOR)).map(Integer::parseInt).map(ordinal -> enumConstants[ordinal]).collect(Collectors.toList());
+
+        }
     }
 
 

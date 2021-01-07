@@ -1,11 +1,13 @@
 package com.example.jpapractice.sakila.model;
 
-import com.example.jpapractice.sakila.config.converter.JsonConverter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class MyJson {
     @Column(name = "json_obj")
     private JsonObj jsonObj;
 
-    @Convert(converter = JsonConverter.class)
+    @Convert(converter = JsonObjConverter.class)
     @Column(name = "json_obj2")
     private JsonObj jsonObj2;
 
@@ -50,6 +52,31 @@ public class MyJson {
         private String username;
 
         private Integer age;
+    }
+
+    //@Converter(autoApply = true)//avoid conflict with @TypeDef(name="json",typeClass = JsonStringType.class)
+    public static class JsonObjConverter implements AttributeConverter<MyJson.JsonObj, String> {//cannot use Object
+
+        private final static ObjectMapper objectMapper = new ObjectMapper();
+
+        @Override
+        public String convertToDatabaseColumn(MyJson.JsonObj meta) {
+            try {
+                return objectMapper.writeValueAsString(meta);
+            } catch (JsonProcessingException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        @Override
+        public MyJson.JsonObj convertToEntityAttribute(String dbData) {
+            try {
+                return objectMapper.readValue(dbData, MyJson.JsonObj.class);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
     }
 
     public enum ScheduleUnit {
