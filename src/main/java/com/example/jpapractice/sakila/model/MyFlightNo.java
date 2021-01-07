@@ -35,7 +35,7 @@ public class MyFlightNo {
             @org.hibernate.annotations.Parameter(name = "enumClass", value = "com.example.jpapractice.sakila.model.MyFlightNo$ScheduleUnit")
     })
     @Convert(disableConversion = true)
-    private List<ScheduleUnit> usedSchedule;//todo: query
+    private List<ScheduleUnit> usedSchedule;
 
     @Column(name = "unused_schedule")
     @Convert(converter = MyFlightNoScheduleListConverter.class)
