@@ -3,8 +3,11 @@ package com.example.jpapractice.sakila.service;
 import com.example.jpapractice.sakila.model.Actor;
 import com.example.jpapractice.sakila.model.QActor;
 import com.example.jpapractice.sakila.repository.ActorRepository;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -43,5 +46,20 @@ public class ActorService {
         return queryFactory.selectFrom(actor).where(actor.lastName.eq(lastName)).fetch();
     }
 
+    public Page<Actor> findByActor(Actor request, Pageable pageable) {
+        QActor entity = QActor.actor;
+        BooleanBuilder builder = new BooleanBuilder();
+        if (request.getFirstName() != null) {
+            builder.and(entity.firstName.eq(request.getFirstName()));
+        }
+        if (request.getLastName() != null) {
+            builder.and(entity.lastName.eq(request.getLastName()));
+        }
+        if (builder.getValue() == null) {
+            return actorRepository.findAll(pageable);
+
+        }
+        return actorRepository.findAll(builder.getValue(), pageable);
+    }
 
 }

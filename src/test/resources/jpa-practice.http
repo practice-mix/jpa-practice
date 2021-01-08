@@ -1,0 +1,19 @@
+###
+GET {{base_url}}/airportConfine
+
+
+> {%
+client.test("success check", function() {
+  client.assert(response.status === 200, "response status is not 200");
+});
+%}
+
+###
+GET {{base_url}}/airportConfine?name=南昌
+
+
+> {%
+client.test("success check", function() {
+  client.assert(response.status === 200, "response status is not 200");
+});
+%}
