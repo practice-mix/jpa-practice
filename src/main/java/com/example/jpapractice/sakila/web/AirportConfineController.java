@@ -46,6 +46,7 @@ public class AirportConfineController {
     /**
      * complex join pagination query with complicated functions  <br/>
      * here use native sql that not recommended. <br/>
+     * the jpa drawback comes in weak resultMapping<br/>
      * recommend MyBatis
      */
     @GetMapping
