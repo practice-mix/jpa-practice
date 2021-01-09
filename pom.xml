@@ -125,9 +125,9 @@
                             <goal>process</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/generated-sources/annotations</outputDirectory>
+                            <outputDirectory>target/generated</outputDirectory>
                             <processor>
-                                com.querydsl.apt.jpa.JPAAnnotationProcessor,
+                                com.querydsl.apt.jpa.JPAAnnotationProcessor
                             </processor>
                         </configuration>
                     </execution>

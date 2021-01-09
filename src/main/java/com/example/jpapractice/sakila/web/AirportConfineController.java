@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +63,7 @@ public class AirportConfineController {
                     "                or a2.airport_short_name like concat('%',:name,'%') )");
 
         }
+        //bug: 会导致AirportConfineVO.fly_past_airports中元素重复， 这里不解决此bug
         String sql = "select ac.id,ac.apart_day,ac.status,ac.remark, " +
                 "       concat('[',GROUP_CONCAT(CONCAT('{\"three_code\":\"', a.three_code, '\", \"airport_name\":\"',a.airport_name ,'\"}')) ,']') as fly_past_airports, " +
                 "       concat('[',GROUP_CONCAT(CONCAT('{\"three_code\":\"', a2.three_code, '\", \"airport_name\":\"',a2.airport_name ,'\"}')),']') as no_fly_airports " +
@@ -108,12 +108,12 @@ public class AirportConfineController {
         private String id;
 
         //        @Type(type = "json") //useless
-        private List<AirportBO> fly_past_airports = new ArrayList<>();
+        private List<AirportBO> fly_past_airports;
 
         private Integer apart_day;
 
         //        @Type(type = "json")
-        private List<AirportBO> no_fly_airports = new ArrayList<>();
+        private List<AirportBO> no_fly_airports;
 
         private Boolean status;
 

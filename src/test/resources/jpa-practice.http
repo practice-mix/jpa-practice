@@ -9,7 +9,7 @@ client.test("success check", function() {
 %}
 
 ###
-GET {{base_url}}/airportConfine?name=南昌
+GET {{base_url}}/airportConfine?name=airport
 
 
 > {%
