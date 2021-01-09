@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -74,32 +75,34 @@ public class AirportConfineController {
             );
         }
 
-//        QueryResults<AirportConfineVO> fetchResults =
-        List<AirportConfineVO> fetch = queryFactory.select(
+        QueryResults<AirportConfineVO> fetchResults =
+//        List<AirportConfineVO> fetch =
+                queryFactory.select(
 //                Projections.constructor(
-                Projections.bean(
-                        AirportConfineVO.class, ac.id, ac.apartDay, ac.status, ac.remark
-                        , Expressions.stringTemplate("concat('[', group_concat(concat('{\"three_code\":\"', {0}, '\", \"airport_name\":\"',{1}, '\"}')),']') ", a.threeCode, a.airportName).as("fly_past_airports")
-                        , Expressions.stringTemplate("concat('[', group_concat(concat('{\"three_code\":\"', {0}, '\", \"airport_name\":\"', {1}, '\"}')),']') ", a2.threeCode, a2.airportName).as("no_fly_airports")
+                        Projections.bean(
+                                AirportConfineVO.class, ac.id, ac.apartDay, ac.status, ac.remark
+                                , Expressions.stringTemplate("concat('[', group_concat(concat('{\"three_code\":\"', {0}, '\", \"airport_name\":\"',{1}, '\"}')),']') ", a.threeCode, a.airportName).as("fly_past_airports")
+                                , Expressions.stringTemplate("concat('[', group_concat(concat('{\"three_code\":\"', {0}, '\", \"airport_name\":\"', {1}, '\"}')),']') ", a2.threeCode, a2.airportName).as("no_fly_airports")
+                        )
                 )
-        )
 //                .from(ac,a)
-                .from(ac).leftJoin(a)
-                .on(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.flyPastAirportCodeJson, a.threeCode))
-                .leftJoin(a2)
-                .on(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.noFlyAirportCodeJson, a2.threeCode))
+                        .from(ac).leftJoin(a)
+                        .on(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.flyPastAirportCodeJson, a.threeCode))
+                        .leftJoin(a2)
+                        .on(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.noFlyAirportCodeJson, a2.threeCode))
 
-                .groupBy(ac.id, ac.apartDay, ac.status, ac.remark)
-                .where(
-                        builder
+//                .groupBy(ac.id, ac.apartDay, ac.status, ac.remark)
+                        .groupBy(ac)
+                        .where(
+                                builder
 //                .and(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.flyPastAirportCodeJson, a.threeCode))
-                                .getValue()
-                )
-//                .limit(pageable.getPageSize()).offset(pageable.getOffset())
-//                .fetchResults();
-                .fetch();
-        return new PageImpl<>(fetch, pageable, fetch.size());
-//        return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());
+                                        .getValue()
+                        )
+                        .limit(pageable.getPageSize()).offset(pageable.getOffset())
+                        .fetchResults();
+        return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());
+//                .fetch();
+//        return new PageImpl<>(fetch, pageable, fetch.size());
     }
 
     /**
