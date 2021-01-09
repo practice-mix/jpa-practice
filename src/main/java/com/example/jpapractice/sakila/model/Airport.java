@@ -2,7 +2,6 @@ package com.example.jpapractice.sakila.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -12,8 +11,9 @@ import javax.persistence.*;
 @Setter
 public class Airport {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Type(type = "uuid-char")
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Type(type = "uuid-char")
+    @GeneratedValue(generator = "customUuid")
     @Column(name = "three_code")
     private String threeCode;
 

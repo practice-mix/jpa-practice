@@ -1,12 +1,18 @@
 package com.example.jpapractice.sakila.web;
 
 import com.example.jpapractice.sakila.model.AirportConfine;
+import com.example.jpapractice.sakila.model.QAirport;
+import com.example.jpapractice.sakila.model.QAirportConfine;
 import com.example.jpapractice.sakila.repository.AirportConfineRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,17 +35,71 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("airportConfine")
-@RequiredArgsConstructor
 public class AirportConfineController {
 
     private final AirportConfineRepository repository;
 
     private final EntityManager entityManager;
 
+    private final JPAQueryFactory queryFactory;
+
+    public AirportConfineController(AirportConfineRepository repository, EntityManager entityManager) {
+        this.repository = repository;
+        this.entityManager = entityManager;
+        queryFactory = new JPAQueryFactory(entityManager);
+    }
+
 
     @PostMapping
     public AirportConfine create(AirportConfine request) {
         return repository.save(request);
+    }
+
+    @GetMapping("/querydsl")
+    public Page<AirportConfineVO> querydsl(AirportConfineSearch request, Pageable pageable) {
+        QAirportConfine ac = QAirportConfine.airportConfine;
+        QAirport a = QAirport.airport;
+        QAirport a2 = new QAirport("airport_2");
+        BooleanBuilder builder = new BooleanBuilder();
+        if (request.getName() != null) {
+            builder.and(
+                    a.threeCode.like("%" + request.getName() + "%")
+                            .or(a.fourCode.like("%" + request.getName() + "%"))
+                            .or(a.airportName.like("%" + request.getName() + "%"))
+                            .or(a.airportShortName.like("%" + request.getName() + "%"))
+                            .or(a2.threeCode.like("%" + request.getName() + "%"))
+                            .or(a2.fourCode.like("%" + request.getName() + "%"))
+                            .or(a2.airportName.like("%" + request.getName() + "%"))
+                            .or(a2.airportShortName.like("%" + request.getName() + "%"))
+            );
+        }
+
+//        QueryResults<AirportConfineVO> fetchResults =
+        List<AirportConfineVO> fetch = queryFactory.select(
+//                Projections.constructor(
+                Projections.bean(
+                        AirportConfineVO.class, ac.id, ac.apartDay, ac.status, ac.remark
+                        , Expressions.stringTemplate("concat('[', group_concat(concat('{\"three_code\":\"', {0}, '\", \"airport_name\":\"',{1}, '\"}')),']') ", a.threeCode, a.airportName).as("fly_past_airports")
+                        , Expressions.stringTemplate("concat('[', group_concat(concat('{\"three_code\":\"', {0}, '\", \"airport_name\":\"', {1}, '\"}')),']') ", a2.threeCode, a2.airportName).as("no_fly_airports")
+                )
+        )
+//                .from(ac,a)
+                .from(ac).leftJoin(a)
+                .on(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.flyPastAirportCodeJson, a.threeCode))
+                .leftJoin(a2)
+                .on(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.noFlyAirportCodeJson, a2.threeCode))
+
+                .groupBy(ac.id, ac.apartDay, ac.status, ac.remark)
+                .where(
+                        builder
+//                .and(Expressions.booleanTemplate("json_contains({0}, concat('\"', {1}, '\"'), '$')=true", ac.flyPastAirportCodeJson, a.threeCode))
+                                .getValue()
+                )
+//                .limit(pageable.getPageSize()).offset(pageable.getOffset())
+//                .fetchResults();
+                .fetch();
+        return new PageImpl<>(fetch, pageable, fetch.size());
+//        return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());
     }
 
     /**
@@ -49,7 +109,7 @@ public class AirportConfineController {
      * recommend MyBatis
      */
     @GetMapping
-    public Page<AirportConfineVO> search(AirportConfineSearch request, Pageable pageable) {
+    public Page<AirportConfineVO> sql(AirportConfineSearch request, Pageable pageable) {
         String where = " ";
         if (request.getName() != null) {
             where += ("where ( a.three_code like concat('%',:name,'%')\n" +
@@ -83,6 +143,7 @@ public class AirportConfineController {
 
         if (request.getName() != null) {
             query.setParameter("name", request.getName());
+            //noinspection JpaQueryApiInspection
             countQuery.setParameter("name", request.getName());
         }
 
@@ -107,17 +168,92 @@ public class AirportConfineController {
 
         private String id;
 
-        //        @Type(type = "json") //useless
-        private List<AirportBO> fly_past_airports;
-
         private Integer apart_day;
-
-        //        @Type(type = "json")
-        private List<AirportBO> no_fly_airports;
+        private Integer apartDay;
 
         private Boolean status;
 
         private String remark;
+
+        //        @Type(type = "json") //useless
+        @JsonIgnore
+        private String fly_past_airports;
+
+        public void setFly_past_airports(String fly_past_airports) throws JsonProcessingException {
+            this.flyPastAirports = objectMapper.readValue(fly_past_airports, new TypeReference<List<AirportBO>>() {
+            });
+        }
+
+        private List<AirportBO> flyPastAirports;
+
+        public void setFlyPastAirports(String flyPastAirports) throws JsonProcessingException {
+            this.flyPastAirports = objectMapper.readValue(flyPastAirports, new TypeReference<List<AirportBO>>() {
+            });
+            ;
+        }
+
+        public void setNoFlyAirports(String noFlyAirports) throws JsonProcessingException {
+            this.noFlyAirports = objectMapper.readValue(noFlyAirports, new TypeReference<List<AirportBO>>() {
+            });
+            ;
+        }
+
+        //        @Type(type = "json")
+        @JsonIgnore
+        private String no_fly_airports;
+
+        public void setNo_fly_airports(String no_fly_airports) throws JsonProcessingException {
+            this.noFlyAirports = objectMapper.readValue(no_fly_airports, new TypeReference<List<AirportBO>>() {
+            });
+        }
+
+        private List<AirportBO> noFlyAirports;
+
+
+        public AirportConfineVO() {
+        }
+
+        /**
+         * for JPA DTO result:
+         * <pre>
+         *     {@code
+         *             QueryResults<AirportConfineVO> fetchResults = queryFactory.select(Projections.constructor(AirportConfineVO.class, ac.id, ac.apartDay, ac.status, ac.remark
+         *                 , Expressions.stringTemplate("concat('[', GROUP_CONCAT(CONCAT('{\"three_code\":\"', {0}, '\", \"airport_name\":\"', a.airport_name, '\"}')),']') as fly_past_airports", a.threeCode, a.airportName)
+         *                 , Expressions.stringTemplate("concat('[', GROUP_CONCAT(CONCAT('{\"three_code\":\"', {0}, '\", \"airport_name\":\"', a.airport_name, '\"}')),']') as fly_past_airports", a2.threeCode, a2.airportName))
+         *         )
+         *     }
+         * </pre>
+         */
+        public AirportConfineVO(String id, Integer apart_day, Boolean status, String remark, String fly_past_airports, String no_fly_airports) throws JsonProcessingException {
+            this.id = id;
+            this.apart_day = apart_day;
+            this.status = status;
+            this.remark = remark;
+            this.flyPastAirports = objectMapper.readValue(fly_past_airports, new TypeReference<List<AirportBO>>() {
+            });
+            this.noFlyAirports = objectMapper.readValue(no_fly_airports, new TypeReference<List<AirportBO>>() {
+            });
+        }
+
+        /**
+         * for JPA DTO result:
+         * <pre>
+         *     {@code
+         *             QueryResults<AirportConfineVO> fetchResults = queryFactory.select(Projections.constructor(AirportConfineVO.class, ac.id, ac.apartDay, ac.status, ac.remark
+         *                 , Expressions.stringTemplate("concat('[', GROUP_CONCAT(CONCAT('{\"three_code\":\"', {0}, '\", \"airport_name\":\"', a.airport_name, '\"}')),']') as fly_past_airports", a.threeCode, a.airportName)
+         *         )
+         *     }
+         * </pre>
+         */
+        public AirportConfineVO(String id, Integer apart_day, Boolean status, String remark, String fly_past_airports) throws JsonProcessingException {
+            this.id = id;
+            this.apart_day = apart_day;
+            this.status = status;
+            this.remark = remark;
+            this.flyPastAirports = objectMapper.readValue(fly_past_airports, new TypeReference<List<AirportBO>>() {
+            });
+        }
+
 
         public AirportConfineVO(
                 Object[] tuple,
@@ -128,9 +264,9 @@ public class AirportConfineController {
             this.status = (Boolean) tuple[aliasToIndexMap.get("status")];
             this.remark = (String) tuple[aliasToIndexMap.get("remark")];
             try {
-                this.fly_past_airports = objectMapper.readValue((String) tuple[aliasToIndexMap.get("fly_past_airports")], new TypeReference<List<AirportBO>>() {
+                this.flyPastAirports = objectMapper.readValue((String) tuple[aliasToIndexMap.get("fly_past_airports")], new TypeReference<List<AirportBO>>() {
                 });
-                this.no_fly_airports = objectMapper.readValue((String) tuple[aliasToIndexMap.get("no_fly_airports")], new TypeReference<List<AirportBO>>() {
+                this.noFlyAirports = objectMapper.readValue((String) tuple[aliasToIndexMap.get("no_fly_airports")], new TypeReference<List<AirportBO>>() {
                 });
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);

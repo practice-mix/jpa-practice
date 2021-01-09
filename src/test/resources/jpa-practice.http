@@ -9,8 +9,25 @@ client.test("success check", function() {
 %}
 
 ###
-GET {{base_url}}/airportConfine?name=airport
+GET {{base_url}}/airportConfine/querydsl
 
+> {%
+client.test("success check", function() {
+  client.assert(response.status === 200, "response status is not 200");
+});
+%}
+
+###
+GET {{base_url}}/airportConfine/querydsl?name=airport
+
+> {%
+client.test("success check", function() {
+  client.assert(response.status === 200, "response status is not 200");
+});
+%}
+
+###
+GET {{base_url}}/airportConfine?name=airport
 
 > {%
 client.test("success check", function() {
