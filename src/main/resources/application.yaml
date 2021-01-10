@@ -14,8 +14,9 @@ spring:
     properties:
       hibernate:
 #        dialect: org.hibernate.dialect.MySQL8Dialect  # default
-        #        dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
-        dialect: com.example.jpapractice.sakila.config.MySQLDialectCustom
+        dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
+        #        dialect: com.example.jpapractice.sakila.config.MySQLDialectCustom
+        metadata_builder_contributor: com.example.jpapractice.sakila.config.SqlFunctionsMetadataBuilderContributor
   #        generate_statistics: true
 
   data:
