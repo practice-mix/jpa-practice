@@ -40,4 +40,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer>, JpaSpecifi
     @Query(value = "select f.title as title,f.rating as rating,f.description as description,f.releaseYear as releaseYear,a.firstName as firstName , a.lastName as lastName,c.name as categoryName  from Film f join f.filmActors fa join fa.actor a join f.filmCategory fc join fc.category c where ftsTwo( a.firstName,a.lastName,:searchText)>0 and fc.key.categoryId=:categoryId")
     List<FilmSummary> takeFilmSummary(@Param("searchText") String searchText, @Param("categoryId") Integer categoryId, Pageable pageable);
 
+    @Query(value = "select f.title as title,f.rating as rating,f.description as description,f.releaseYear as releaseYear,a.firstName as firstName , a.lastName as lastName,c.name as categoryName  from Film f join f.filmActors fa join fa.actor a join f.filmCategory fc join fc.category c where match( a.firstName,a.lastName,:searchText)>0 and fc.key.categoryId=:categoryId")
+    List<FilmSummary> takeFilmSummaryCustomRegisterFunctions(@Param("searchText") String searchText, @Param("categoryId") Integer categoryId, Pageable pageable);
+
 }

@@ -16,5 +16,6 @@ public class MySQLDialectCustom extends MySQL8SpatialDialect {//use the spatial 
       this.registerFunction("group_concat", new SQLFunctionTemplate(StandardBasicTypes.STRING, "group_concat(?1)"));
       this.registerFunction("json_contains", new SQLFunctionTemplate(StandardBasicTypes.BOOLEAN, "json_contains(?1,?2,?3)"));
 
+      this.registerFunction("match", new VarArgsConjugateSQLFunction(StandardBasicTypes.DOUBLE, "match(", ",", ") against(", " in boolean mode)"));
   }
 }

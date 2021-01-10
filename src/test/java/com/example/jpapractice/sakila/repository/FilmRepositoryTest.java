@@ -48,14 +48,22 @@ class FilmRepositoryTest {
         var result = filmRepository.takeExcerptValueByActorId(1);
         System.out.println(objectMapper.writeValueAsString(result));
     }
+
     @Test
     void listByActorFirstName() throws JsonProcessingException {
         var result = filmRepository.listByActorFirstName("MENA");
         System.out.println(objectMapper.writeValueAsString(result));
     }
+
     @Test
     void takeFilmSummary() throws JsonProcessingException {
-        var result = filmRepository.takeFilmSummary("JODIE",11, PageRequest.of(0,10));
+        var result = filmRepository.takeFilmSummary("JODIE", 11, PageRequest.of(0, 10));
+        System.out.println(objectMapper.writeValueAsString(result));
+    }
+
+    @Test
+    void takeFilmSummaryCustomRegisterFunctions() throws JsonProcessingException {
+        var result = filmRepository.takeFilmSummaryCustomRegisterFunctions("JODIE", 11, PageRequest.of(0, 10));
         System.out.println(objectMapper.writeValueAsString(result));
     }
 
