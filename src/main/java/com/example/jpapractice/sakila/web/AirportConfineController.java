@@ -26,9 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigInteger;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Luo Bao Ding
@@ -185,6 +183,7 @@ public class AirportConfineController {
         public void setFly_past_airports(String fly_past_airports) throws JsonProcessingException {
             this.flyPastAirports = objectMapper.readValue(fly_past_airports, new TypeReference<List<AirportBO>>() {
             });
+            this.flyPastAirports = new ArrayList<>(new HashSet<>(this.flyPastAirports));
         }
 
         private List<AirportBO> flyPastAirports;
@@ -192,13 +191,12 @@ public class AirportConfineController {
         public void setFlyPastAirports(String flyPastAirports) throws JsonProcessingException {
             this.flyPastAirports = objectMapper.readValue(flyPastAirports, new TypeReference<List<AirportBO>>() {
             });
-            ;
         }
 
         public void setNoFlyAirports(String noFlyAirports) throws JsonProcessingException {
             this.noFlyAirports = objectMapper.readValue(noFlyAirports, new TypeReference<List<AirportBO>>() {
             });
-            ;
+
         }
 
         //        @Type(type = "json")
@@ -208,6 +206,7 @@ public class AirportConfineController {
         public void setNo_fly_airports(String no_fly_airports) throws JsonProcessingException {
             this.noFlyAirports = objectMapper.readValue(no_fly_airports, new TypeReference<List<AirportBO>>() {
             });
+            this.noFlyAirports = new ArrayList<>(new HashSet<>(this.noFlyAirports));
         }
 
         private List<AirportBO> noFlyAirports;
@@ -317,6 +316,18 @@ public class AirportConfineController {
 
         private String airport_short_name;
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            AirportBO airportBO = (AirportBO) o;
+            return three_code.equals(airportBO.three_code);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(three_code);
+        }
     }
 
 }
